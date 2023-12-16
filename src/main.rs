@@ -9,7 +9,7 @@ fn main() {
     let filename = filename.trim();
 
     let target_file = File::open(filename);
-    let target_file = match target_file {
+    let mut target_file = match target_file {
         Ok(file) => file,
         Err(error) => match error.kind()  {
                 ErrorKind::NotFound => panic!("Error: {}", error),
@@ -17,5 +17,15 @@ fn main() {
 
         },
     };
+
+    let mut file_contents = String::new();
+
+    let _ = match target_file.read_to_string(&mut file_contents ) {
+        Ok(_) => Ok(&mut file_contents),
+        Err(e) => Err(e),
+        
+    };
+
+    print!("{}", file_contents);
 
 }
